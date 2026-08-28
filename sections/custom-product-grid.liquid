@@ -1,0 +1,398 @@
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  .product-grid-container{
+    width: 100%;
+    margin: 0 auto;
+    max-width: 94%;
+  }
+  .image-list {
+    width: 32%;
+    position:relative;
+  }
+  .product-grid-wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 20px;
+    column-gap: 2%;
+  }
+  .responsive-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  .product-popup{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width:35rem;
+    display:none;
+    background: white;
+    padding: 2.5rem 2rem 2rem;
+  }
+  .product-popup.active{
+    display:block!important;
+    z-index:9;
+  }
+  .quick-view-image img{
+    width:100%;
+    height:100%;
+    object-fit: cover;
+  }
+  .cross-button{
+    position: absolute;
+    right: 23px;
+    top: 20px;
+    cursor:pointer;
+  }
+  .product__title{
+    display:none;
+  }
+  .product__info-container {
+    .product__text,
+    .price,
+    .product__description,.product-form__quantity,.share-button,.quantity,.shopify-payment-button,.product__view-details{
+      display:none;
+    }
+  }
+  .image-info{
+    display:flex;
+  }
+  .quick-view-image{
+    width:40%;
+  }
+  .info{
+    width:60%;
+  }
+  .quick-view-title h1{
+    font-size: 18px;
+    font-family: "Jost", sans-serif;
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+  .price{
+    font-size: 22px;
+    font-weight: 400;
+    font-family: "Jost", sans-serif;
+    margin-bottom: 1.5rem;
+  }
+
+  .info{
+    margin-left:2rem;
+  }
+  .quick-view-desc{
+    font-family: Jost;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.4;
+    color: black;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 1.5rem;
+  }
+  .variants{
+    margin-top: 2rem;
+  }
+  .product-form__input{
+    border:none;
+    margin: 0 0 1.5rem;
+    padding:0;
+    position:relative;
+  }
+  .product-form__input  input{
+    display:none;
+  }
+  .form__label{
+    font-size: 16px;
+    color: #000;
+    display:block;
+    margin-bottom: 0.6rem;
+  }
+
+  /* Color options */
+  .color-container{
+    display:flex;
+    position: relative;
+    overflow: hidden;
+  }
+  .color-container::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 50%;
+    background: #000;
+    transition: transform 0.3s linear;
+    transform: translateX(0%);
+    z-index: 0;
+  }
+  .color-container:has(input[type="radio"]:nth-of-type(2):checked)::before{
+    transform: translateX(100%);
+  }
+  .color-container .colorLabel{
+    position:relative;
+    z-index: 1;
+    flex:1;
+    display: block;
+    padding: 1.1rem 1rem 1.1rem 1.6rem;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: jost;
+    color: #000;
+    cursor: pointer;
+    transition: color 0.3s linear;
+  }
+  .color-container .colorLabel{
+    border: 1px solid #000;
+  }
+  .color-container input[type="radio"]:checked + .colorLabel {
+    color: #fff;
+    font-weight: 500;
+  }
+
+  /* Size dropdown */
+  .custom-select{
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    color: #000;
+    font-size: 16px;
+    border: 1px solid black;
+    font-weight:400;
+    position:relative;
+    cursor: pointer;
+  }
+
+  .carrot-icon{
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-left: 1px solid #000;
+  }
+  .custom-select .choose-option{
+    padding: 1.1rem;
+  }
+  .other-variant.active{
+    display:block!important;
+  }
+
+  .custom-select.active .carrot-icon svg {
+    transform: rotate(180deg);
+  }
+
+  .other-variant{
+    display:none;
+    position: absolute;
+    top: 100%;
+    left: -1px;
+    right: -1px;
+    background: white;
+    width: auto;
+    z-index: 9;
+    border: 1px solid #000;
+    max-height: 25vh;
+    overflow-y: auto;
+  }
+
+  .other-variant .other-label{
+    width:100%;
+    display: block;
+    padding: 1rem;
+    font-size: 16px;
+    font-family: jost;
+    text-align: center;
+    color: #000;
+    cursor:pointer;
+  }
+  .other-variant .other-label:hover,
+  .other-variant .other-label.selected{
+    background:#000;
+    color:#fff;
+  }
+  .other-variant .other-label.disabled{
+    color: #999;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .cstm-add-to-cart{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #000;
+    color: white;
+    font-size: 18px;
+    font-family: jost;
+    height: 4.5rem;
+    padding: 0 1.8rem;
+    border: none;
+    font-weight: 300;
+  }
+  .cstm-add-to-cart svg path{
+    fill:#fff;
+  }
+  .cstm-add-to-cart svg {
+    width:30px;
+  }
+  .cart-button{
+    margin-top:2.5rem;
+  }
+  .cart-button button{
+    cursor:pointer;
+    position:relative;
+  }
+  .variant-select{
+    display: flex;
+    flex-direction:column-reverse;
+  }
+  .product-popup .spinner .path {
+    stroke: white;
+  }
+  .product-popup .loading-overlay__spinner {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -43%);
+    left: 50%;
+  }
+
+
+  {% for block in section.blocks %}
+        {%- case block.type -%}
+            {%- when 'image_block' -%}
+              .plus-{{ block.id }}{
+                position: absolute;
+                top: {{block.settings.top}}%;
+                left:{{block.settings.left}}%;
+                transform: translate(-50%, -50%);
+                cursor:pointer;
+              }
+        {% endcase %}
+  {% endfor %}
+
+  @media screen and (max-width:749px){
+    .image-list{
+      width:49%
+    }
+    .product-popup{
+      width:100%;
+    }
+  }
+{% endstyle %}
+
+<div class="product-grid-container color-{{ section.settings.color_scheme }}">
+  <h1 class="lustria-regular">{{ section.settings.heading }}</h1>
+  <div class="product-grid-wrapper">
+    {% for block in section.blocks %}
+      {%- case block.type -%}
+        {%- when 'image_block' -%}
+          <div class="image-list">
+            {%- if block.settings.image != blank -%}
+              {{
+                block.settings.image
+                | image_url: width: 1600
+                | image_tag:
+                  class: 'responsive-image',
+                  widths: '375, 550, 750, 1100, 1400, 1600',
+                  sizes: '100vw',
+                  alt: block.settings.image.alt
+                | default: shop.name, loading: 'lazy'
+              }}
+            {%- endif -%}
+            <div class="plus-button plus-{{ block.id }}" data-product-url="{{block.settings.product.url }}">
+              <div class="icon-wrapper">
+                {% render 'custom_plus-icon' %}
+              </div>
+            </div>
+          </div>
+      {% endcase %}
+    {% endfor %}
+  </div>
+</div>
+<div class="product-popup">
+  <div class="cross-button">{% render 'custom-cross-button' %}</div>
+  <div class="image-info flex">
+    <div class="quick-view-image"></div>
+    <div class="info">
+      <div class="quick-view-title"></div>
+      <div class="quick-view-price"></div>
+      <div class="quick-view-desc"></div>
+    </div>
+  </div>
+  <div class="variants"></div>
+  <div class="cart-button">
+    <button class="flex alignCenter cstm-add-to-cart">
+      ADD TO CART
+      {% render 'custom-arrow' %}
+      {% render 'custom-loader' %}
+    </button>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom Product Grid",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Enter your heading",
+      "default": "Tisso vison in the wild"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_block",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Upload image"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "choose product"
+        },
+        {
+          "type": "range",
+          "id": "top",
+          "min": 10,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "Button position top",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "left",
+          "min": 10,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "Button position left",
+          "default": 50
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Product Grid"
+    }
+  ]
+}
+{% endschema %}

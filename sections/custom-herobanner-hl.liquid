@@ -1,0 +1,372 @@
+<style>
+.chb-header-bar {
+    padding: 1rem 8rem;
+}
+.chb-logo {
+  display: block;
+  width: 150px;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+.chb-headline {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 13.42px;
+    letter-spacing: 0px;
+    text-align: center;
+    vertical-align: middle;
+}
+.chb-button {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20.48px;
+    letter-spacing: 0px;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1.5rem 3rem;
+    background: linear-gradient(to right, black 50%, #FFF544 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    transition: background-position 0.4s ease, color 0.4s ease;
+}
+.chb-button:hover {
+  background-position: left bottom;
+  color: white;
+}
+.chb-button:hover .custom-arrow-icon path {
+  background-position: left bottom;
+  fill: #F5F5F5;
+}
+.chb-button .custom-arrow-icon  {
+    margin-left: 1.5rem;
+}
+.chb-hamburger {
+    display: none;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    color: currentColor;
+}
+
+.chb-hero-image-wrap {
+    overflow: hidden;
+}
+.chb-hero-image {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: #fff;
+    display: block;
+}
+
+.chb-bottom-text {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 13.42px;
+    letter-spacing: 0px;
+}
+
+.chb-hero-content {
+    width: 50%;
+    bottom: 2%;
+    left: 8%;
+    transform: translate(-8%, 0%);
+    z-index: 1;
+}
+
+.chb-hero-headline {
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: 0px;
+}
+
+.chb-hero-subheadline {
+    width: 65%;
+}
+.chb-hero-subheadline * {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.5;
+    letter-spacing: 0px;
+    margin: 0;
+}
+.chb-hero-button {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20.48px;
+    letter-spacing: 0px;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1.5rem 3rem;
+    background: linear-gradient(to right, #FFF544 50%, #000 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    transition: background-position 0.4s ease, color 0.4s ease;
+    color: #FFFFFF;
+    margin: 3rem 0
+}
+
+.chb-hero-button:hover {
+  background-position: left bottom;
+  color: #000;
+}
+.chb-hero-button .custom-arrow-icon path {
+  fill: #FFFFFF;
+}
+.chb-hero-button:hover .custom-arrow-icon path {
+  background-position: left bottom;
+  fill: #000;
+}
+.chb-hero-button .custom-arrow-icon  {
+    margin-left: 1.5rem;
+}
+.chb-hero-button--mobile {
+    display: none;
+}
+
+.chb-hero-headline {
+    font-size: clamp(32px, 8vw, 70px);
+}
+
+@media screen and (min-width: 990px) {
+  .chb-hero-headline {
+    font-size: clamp(48px, 4.86vw, 70px);
+  }
+}
+
+/* Tablet */
+@media screen and (max-width: 989px) {
+  .chb-header-bar {
+    padding: 1rem 3rem;
+  }
+  .chb-hero-content {
+    width: 70%;
+  }
+  .chb-hero-subheadline {
+    width: 85%;
+  }
+}
+
+/* Mobile */
+@media screen and (max-width: 749px) {
+  .chb-header-bar {
+    padding: 1rem;
+    justify-content: center;
+    position: relative;
+  }
+  .chb-hamburger {
+    display: block;
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .chb-logo {
+    width: 130px;
+  }
+  .chb-headline,
+  .chb-button {
+    display: none;
+  }
+  .chb-hero-content {
+    position: static;
+    width: 100%;
+    text-align: center;
+    padding: 1.5rem 1.5rem 1rem;
+    transform: none;
+  }
+  .chb-hero-headline {
+    font-size: clamp(32px, 9vw, 40px);
+  }
+  .chb-hero-subheadline {
+    width: 100%;
+    margin: 1rem auto 0;
+  }
+  .chb-hero-subheadline * {
+    font-size: 16px;
+    text-align: center;
+  }
+  .chb-hero-image-wrap {
+    aspect-ratio: 1 / 1.05;
+  }
+  .chb-hero-button--desktop {
+    display: none;
+  }
+  .chb-hero-button--mobile {
+    display: inline-flex;
+    align-items: center;
+    left: 50%;
+    bottom: 12%;
+    transform: translateX(-50%);
+    margin: 0;
+    padding: 1rem 1.75rem;
+    white-space: nowrap;
+  }
+  .chb-bottom-text {
+    font-size: 13px;
+  }
+}
+</style>
+
+<div class="custom-hero-banner-{{ section.id }} color-{{ section.settings.color_scheme }}">
+    <div class="chb-container">
+        <div class="chb-header-bar d-flex align-center justify-between">
+            <button type="button" class="chb-hamburger" aria-label="Menu">
+                {% render 'custom-hamburger' %}
+            </button>
+            {% if section.settings.logo_image %}
+                {{
+                    section.settings.logo_image
+                    | image_url: width: 300
+                    | image_tag:
+                    class: 'chb-logo',
+                    widths: '150, 200',
+                    sizes: '150px',
+                    width: 150,
+                    alt: section.settings.logo_image.alt | default: shop.name,
+                    loading: 'lazy'
+                }}
+            {% endif %}
+            {% if section.settings.headline_text %}
+                <p class="chb-headline">{{ section.settings.headline_text }}</p>
+            {% endif %}
+            {% if section.settings.button_link and section.settings.button_text %}
+                <a href="{{ section.settings.button_link }}" aria-label="{{ section.settings.button_text }}" class="chb-button link">{{ section.settings.button_text }} {% render 'custom-arrow' %}</a>
+            {% endif %}
+        </div>
+        <div class="chb-hero-banner position-relative">
+            <div class="chb-hero-content position-absolute">
+                {% if section.settings.hero_headline_text %}
+                    <h1 class="chb-hero-headline">{{ section.settings.hero_headline_text }}</h1>
+                {% endif %}
+                {% if section.settings.hero_subheadline_text %}
+                    <div class="chb-hero-subheadline">{{ section.settings.hero_subheadline_text }}</div>
+                {% endif %}
+                {% if section.settings.hero_button_link and section.settings.hero_button_text %}
+                    <a href="{{ section.settings.hero_button_link }}" aria-label="{{ section.settings.hero_button_text }}" class="chb-hero-button chb-hero-button--desktop link">{{ section.settings.hero_button_text }} {% render 'custom-arrow' %}</a>
+                {% endif %}
+            </div>
+            <div class="chb-hero-image-wrap position-relative">
+                {% if section.settings.hero_image %}
+                    <picture>
+                        {% if section.settings.hero_image_mobile %}
+                            <source media="(max-width: 749px)" srcset="{{ section.settings.hero_image_mobile | image_url: width: 750 }} 750w, {{ section.settings.hero_image_mobile | image_url: width: 1080 }} 1080w">
+                        {% endif %}
+                        {{
+                            section.settings.hero_image
+                            | image_url: width: 2400
+                            | image_tag:
+                            class: 'chb-hero-image',
+                            widths: '400, 750, 1080, 1440, 1920, 2400',
+                            sizes: '100vw',
+                            alt: section.settings.hero_image.alt | default: shop.name,
+                            loading: 'lazy'
+                        }}
+                    </picture>
+                {% endif %}
+                {% if section.settings.hero_button_link and section.settings.hero_button_text %}
+                    <a href="{{ section.settings.hero_button_link }}" aria-label="{{ section.settings.hero_button_text }}" class="chb-hero-button chb-hero-button--mobile position-absolute link">{{ section.settings.hero_button_text }} {% render 'custom-arrow' %}</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="chb-bottom-bar p-2">
+            {% if section.settings.bottom_bar_text %}
+                <p class="chb-bottom-text m-0 text-center">{{ section.settings.bottom_bar_text }}</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+{% schema %}
+{
+    "name": "Custom Hero Banner",
+    "settings": [
+        {
+            "type": "color_scheme",
+            "id": "color_scheme",
+            "label": "Color Scheme"
+        },
+        {
+            "type": "header",
+            "content": "Header Bar of Hero Banner"
+        },
+        {
+            "type": "image_picker",
+            "id": "logo_image",
+            "label": "Logo Image"
+        },
+        {
+            "type": "text",
+            "id": "headline_text",
+            "label": "Headline Text"
+        },
+        {
+            "type": "url",
+            "id": "button_link",
+            "label": "Button Link"
+        },
+        {
+            "type": "text",
+            "id": "button_text",
+            "label": "Button Text"
+        },
+        {
+            "type": "header",
+            "content": "Hero Banner"
+        },
+        {
+            "type": "image_picker",
+            "id": "hero_image",
+            "label": "Hero Image"
+        },
+        {
+            "type": "image_picker",
+            "id": "hero_image_mobile",
+            "label": "Hero Image (Mobile)",
+            "info": "Optional. Falls back to the Hero Image above if not set."
+        },
+        {
+            "type": "text",
+            "id": "hero_headline_text",
+            "label": "Hero Headline Text"
+        },
+        {
+            "type": "richtext",
+            "id": "hero_subheadline_text",
+            "label": "Hero Subheadline Text"
+        },
+        {
+            "type": "url",
+            "id": "hero_button_link",
+            "label": "Hero Button Link"
+        },
+        {
+            "type": "text",
+            "id": "hero_button_text",
+            "label": "Hero Button Text"
+        },
+        {
+            "type": "header",
+            "content": "Bottom bar of Hero Banner"
+        },
+        {
+            "type": "text",
+            "id": "bottom_bar_text",
+            "label": "Bottom Bar Text"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Custom Hero Banner",
+            "category": "Custom Sections"
+        }
+    ]
+}
+{% endschema %}

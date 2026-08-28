@@ -1051,7 +1051,7 @@ class SlideshowComponent extends SliderComponent {
     const slideScrollPosition =
       this.slider.scrollLeft +
       this.sliderFirstItemNode.clientWidth *
-        (this.sliderControlLinksArray.indexOf(event.currentTarget) + 1 - this.currentPage);
+      (this.sliderControlLinksArray.indexOf(event.currentTarget) + 1 - this.currentPage);
     this.slider.scrollTo({
       left: slideScrollPosition,
     });
@@ -1438,3 +1438,242 @@ class CartPerformance {
     );
   }
 }
+
+
+// custom product grid add to scripts
+
+document.querySelectorAll(".plus-button").forEach(function (button) {
+  button.addEventListener("click", function () {
+    const productUrl = button.getAttribute("data-product-url");
+    fetchProduct(productUrl)
+  });
+});
+
+function fetchProduct(productUrl) {
+  fetch(productUrl)
+    .then(response => response.text())
+    .then(responseText => {
+      document.querySelector(".body-loader .loading-overlay__spinner").classList.remove("hidden")
+      const productData = new DOMParser().parseFromString(responseText, 'text/html');
+      const fullsection = productData.querySelector('[id^="MainProduct-"]');
+      const media = productData.querySelector('[id^="MediaGallery-"] .product__media img');
+      const title = fullsection?.querySelector('.product__title')?.innerHTML.trim();
+      const price = fullsection?.querySelector('[id^="price-"]')?.innerHTML.trim();
+      const description = fullsection?.querySelector('.product__description')?.innerHTML.trim();
+      const variants = fullsection?.querySelector('variant-selects');
+      const overlay = document.querySelector(".overlay")
+      const popup = document.querySelector(".product-popup")
+      const mediaDiv = document.querySelector(".quick-view-image");
+      const titleDiv = document.querySelector(".quick-view-title");
+      const priceDiv = document.querySelector(".quick-view-price");
+      const descDiv = document.querySelector(".quick-view-desc");
+      const varDiv = document.querySelector(".variants");
+
+      // Clear previous content
+      mediaDiv.innerHTML = '';
+      titleDiv.innerHTML = '';
+      priceDiv.innerHTML = '';
+      descDiv.innerHTML = '';
+      varDiv.innerHTML = '';
+
+      // Append correct content
+      if (media) mediaDiv.appendChild(media.cloneNode(true));
+      if (title) titleDiv.innerHTML = title;
+      if (price) priceDiv.innerHTML = price;
+      if (description) descDiv.innerHTML = description;
+      if (variants) varDiv.appendChild(variants.cloneNode(true));
+      popup.classList.add("active");
+      overlay.classList.add("active");
+      document.querySelector(".body-loader .loading-overlay__spinner").classList.add("hidden")
+      buildVariantPickerUI(varDiv);
+      customApi();
+    });
+}
+
+
+const crossBtn = document.querySelector('.cross-button');
+
+if (crossBtn) {
+  crossBtn.addEventListener('click', function () {
+    document.querySelector('.product-popup')?.classList.remove('active');
+    document.querySelector(".overlay")?.classList.remove('active');
+  });
+}
+
+const CARET_ICON_SVG = '<svg class="icon icon-caret" viewBox="0 0 10 6"><path fill="currentColor" fill-rule="evenodd" d="M9.354.646a.5.5 0 0 0-.708 0L5 4.293 1.354.646a.5.5 0 0 0-.708.708l4 4a.5.5 0 0 0 .708 0l4-4a.5.5 0 0 0 0-.708" clip-rule="evenodd"/></svg>';
+
+const MAX_PILL_VALUES = 4;
+
+function getVisibleLabelText(label) {
+  const clone = label.cloneNode(true);
+  clone.querySelectorAll('.visually-hidden, .label-unavailable').forEach((el) => el.remove());
+  return clone.textContent.trim();
+}
+
+function buildVariantPickerUI(varDiv) {
+  if (!varDiv) return;
+
+  varDiv.querySelectorAll('fieldset').forEach((fieldset) => {
+    const legendText = fieldset.querySelector('legend')?.textContent.trim().toLowerCase() || '';
+    const valueCount = fieldset.querySelectorAll('input[type="radio"]').length;
+    const isSizeLike = legendText.includes('size') || valueCount > MAX_PILL_VALUES;
+    if (isSizeLike) {
+      buildSizeDropdown(fieldset);
+    } else {
+      buildColorPills(fieldset);
+    }
+  });
+}
+
+function buildColorPills(fieldset) {
+  fieldset.classList.add('color-container');
+  fieldset.querySelectorAll('label').forEach((label) => {
+    label.classList.add('colorLabel');
+  });
+}
+
+function buildSizeDropdown(fieldset) {
+  const radios = Array.from(fieldset.querySelectorAll('input[type="radio"]'));
+  const labels = Array.from(fieldset.querySelectorAll('label'));
+  if (!radios.length) return;
+
+  fieldset.style.display = 'none';
+
+  const checkedIndex = radios.findIndex((radio) => radio.checked);
+  const defaultLabelText = checkedIndex > -1 ? getVisibleLabelText(labels[checkedIndex]) : 'Choose your size';
+
+  const customSelect = document.createElement('div');
+  customSelect.className = 'custom-select';
+  customSelect.innerHTML =
+    '<span class="choose-option">' + defaultLabelText + '</span>' +
+    '<span class="carrot-icon">' + CARET_ICON_SVG + '</span>';
+
+  const otherVariant = document.createElement('div');
+  otherVariant.className = 'other-variant';
+
+  labels.forEach((label, index) => {
+    const radio = radios[index];
+    const optionLabel = document.createElement('div');
+    const valueText = getVisibleLabelText(label);
+    optionLabel.className = 'other-label';
+    optionLabel.setAttribute('valuetitle', valueText);
+    optionLabel.textContent = valueText;
+    if (radio.classList.contains('disabled')) {
+      optionLabel.classList.add('disabled');
+    }
+    if (radio.checked) {
+      optionLabel.classList.add('selected');
+    }
+
+    optionLabel.addEventListener('click', (event) => {
+      event.stopPropagation();
+      if (optionLabel.classList.contains('disabled')) return;
+      radio.checked = true;
+      otherVariant.querySelectorAll('.other-label').forEach((el) => el.classList.remove('selected'));
+      optionLabel.classList.add('selected');
+      customSelect.querySelector('.choose-option').textContent = valueText;
+      customSelect.classList.remove('active');
+      otherVariant.classList.remove('active');
+    });
+
+    otherVariant.appendChild(optionLabel);
+  });
+
+  customSelect.addEventListener('click', () => {
+    customSelect.classList.toggle('active');
+    otherVariant.classList.toggle('active');
+  });
+
+  customSelect.appendChild(otherVariant);
+  fieldset.after(customSelect);
+}
+
+const SOFT_WINTER_JACKET_PRODUCT_ID = 10789076730161;
+let softWinterJacketVariantIdCache = null;
+
+async function getSoftWinterJacketVariantId() {
+  if (softWinterJacketVariantIdCache) return softWinterJacketVariantIdCache;
+  try {
+    const response = await fetch('/products.json?limit=250');
+    const data = await response.json();
+    const jacket = data.products?.find((product) => product.id === SOFT_WINTER_JACKET_PRODUCT_ID);
+    const variant = jacket?.variants?.find((v) => v.available) || jacket?.variants?.[0];
+    softWinterJacketVariantIdCache = variant ? variant.id : null;
+  } catch (error) {
+    console.error("Error fetching Soft Winter Jacket product:", error);
+    softWinterJacketVariantIdCache = null;
+  }
+  return softWinterJacketVariantIdCache;
+}
+
+function customApi() {
+  const cartBtn = document.querySelector('.cstm-add-to-cart');
+  var loadingSpinner = cartBtn.querySelector(".loading-overlay__spinner");
+  cartBtn.addEventListener('click', async function () {
+    const fieldsets = Array.from(document.querySelectorAll('fieldset'));
+    var optionschecked = fieldsets.map((fieldset) => {
+      const radios = Array.from(fieldset.querySelectorAll('input'));
+      const selectedRadio = radios.find((radio) => radio.checked);
+      if (selectedRadio) {
+        if (selectedRadio.classList.contains('disabled')) {
+          return null;
+        }
+        else {
+          return selectedRadio.value;
+        }
+      }
+    })
+    const varContainer = document.querySelector('.variant-select');
+    const jsonDataElement = varContainer.querySelector('[type="application/json"][data-all-variants]');
+    const variantData = JSON.parse(jsonDataElement.textContent);
+    const foundVariant = variantData.find(variant => {
+      return variant.options.every((option, index) => {
+        return option == optionschecked[index];
+      });
+    });
+    if (foundVariant) {
+      ProVarId = foundVariant.id;
+      var items = [
+        {
+          'id': ProVarId,
+          'quantity': 1
+        }
+      ];
+
+      const selectedOptions = (foundVariant.options || []).map((option) => String(option).toLowerCase());
+      const isBlackMedium = selectedOptions.includes('black') && (selectedOptions.includes('m') || selectedOptions.includes('medium'));
+      if (isBlackMedium) {
+        const jacketVariantId = await getSoftWinterJacketVariantId();
+        if (jacketVariantId) {
+          items.push({
+            'id': jacketVariantId,
+            'quantity': 1
+          });
+        }
+      }
+
+      var formData = { 'items': items };
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+        .then(response => {
+          loadingSpinner.classList.remove("hidden");
+          return response.json();
+        })
+        .catch((error) => {
+          console.error("Error during the API call:", error);
+        })
+        .finally(() => {
+          setTimeout(() => {
+            window.location.href = '/cart';
+          }, 1000);
+
+        });
+    }
+  });
+}
+
