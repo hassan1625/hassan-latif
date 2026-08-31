@@ -28,7 +28,7 @@
       }
     },
     "custom_product_grid_YtWtAK": {
-      "type": "custom-product-grid",
+      "type": "custom-product-grid-hl",
       "blocks": {
         "image_block_dLCnd3": {
           "type": "image_block",

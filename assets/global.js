@@ -1440,7 +1440,7 @@ class CartPerformance {
 }
 
 
-// custom product grid add to scripts
+// custom product grid add to cart along with Soft Winter Jacket added to cart when b & m option is selected... scripts
 
 document.querySelectorAll(".plus-button").forEach(function (button) {
   button.addEventListener("click", function () {

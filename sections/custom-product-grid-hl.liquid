@@ -1,0 +1,174 @@
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'custom-product-grid-hl.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+  {% for block in section.blocks %}
+        {%- case block.type -%}
+            {%- when 'image_block' -%}
+              .plus-{{ block.id }}{
+                position: absolute;
+                top: {{block.settings.top}}%;
+                left:{{block.settings.left}}%;
+                transform: translate(-50%, -50%);
+                cursor:pointer;
+                text-align: center;
+                width: 25px;
+                height: 25px;
+                background: #F8F8F8E5;
+                border-radius: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
+              @media screen and (max-width:750px){
+                .plus-{{ block.id }}{
+                    width: 20px;
+                    height: 20px;
+                }
+              }
+        {% endcase %}
+  {% endfor %}
+{%- endstyle -%}
+
+<div class="product-grid-container color-{{ section.settings.color_scheme }} section-{{ section.id }}-padding">
+  <h1 class="section-main_heading lustria-regular">{{ section.settings.heading }}</h1>
+  <div class="product-grid-wrapper">
+    {% for block in section.blocks %}
+      {%- case block.type -%}
+        {%- when 'image_block' -%}
+          <div class="image-list">
+            {%- if block.settings.image != blank -%}
+              {{
+                block.settings.image
+                | image_url: width: 1600
+                | image_tag:
+                  class: 'responsive-image',
+                  widths: '375, 550, 750, 1100, 1400, 1600',
+                  sizes: '100vw',
+                  alt: block.settings.image.alt
+                | default: shop.name, loading: 'lazy'
+              }}
+            {%- endif -%}
+            <div class="plus-button plus-{{ block.id }}" data-product-url="{{block.settings.product.url }}">
+              <div class="icon-wrapper">
+                {% render 'custom_plus-icon' %}
+              </div>
+            </div>
+          </div>
+      {% endcase %}
+    {% endfor %}
+  </div>
+</div>
+<div class="product-popup">
+  <div class="cross-button">{% render 'custom-cross-button' %}</div>
+  <div class="image-info flex">
+    <div class="quick-view-image"></div>
+    <div class="info">
+      <div class="quick-view-title"></div>
+      <div class="quick-view-price"></div>
+      <div class="quick-view-desc"></div>
+    </div>
+  </div>
+  <div class="variants"></div>
+  <div class="cart-button">
+    <button class="flex alignCenter cstm-add-to-cart">
+      ADD TO CART
+      {% render 'custom-arrow' %}
+      {% render 'custom-loader' %}
+    </button>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom Product Grid",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Enter your heading",
+      "default": "Tisso vison in the wild"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_block",
+      "name": "Image",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Upload image"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "choose product"
+        },
+        {
+          "type": "range",
+          "id": "top",
+          "min": 10,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "Button position top",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "left",
+          "min": 10,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "Button position left",
+          "default": 50
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Product Grid"
+    }
+  ]
+}
+{% endschema %}

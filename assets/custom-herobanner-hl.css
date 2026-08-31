@@ -1,0 +1,240 @@
+.chb-header-bar {
+    padding: 1rem 8rem;
+}
+
+.chb-logo {
+    display: block;
+    width: 150px;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.chb-headline {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 13.42px;
+    letter-spacing: 0px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.chb-button {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20.48px;
+    letter-spacing: 0px;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1.5rem 3rem;
+    background: linear-gradient(to right, black 50%, #FFF544 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    transition: background-position 0.4s ease, color 0.4s ease;
+}
+
+.chb-button:hover {
+    background-position: left bottom;
+    color: white;
+}
+
+.chb-button:hover .custom-arrow-icon path {
+    background-position: left bottom;
+    fill: #F5F5F5;
+}
+
+.chb-button .custom-arrow-icon {
+    margin-left: 1.5rem;
+}
+
+.chb-hamburger {
+    display: none;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    color: currentColor;
+}
+
+.chb-hero-image-wrap {
+    overflow: hidden;
+}
+
+.chb-hero-image {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: #fff;
+    display: block;
+}
+
+.chb-bottom-text {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 13.42px;
+    letter-spacing: 0px;
+}
+
+.chb-hero-content {
+    width: 50%;
+    bottom: 2%;
+    left: 8%;
+    transform: translate(-8%, 0%);
+    z-index: 1;
+}
+
+.chb-hero-headline {
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: 0px;
+}
+
+.chb-hero-subheadline {
+    width: 65%;
+}
+
+.chb-hero-subheadline * {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.5;
+    letter-spacing: 0px;
+    margin: 0;
+}
+
+.chb-hero-button {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20.48px;
+    letter-spacing: 0px;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1.5rem 3rem;
+    background: linear-gradient(to right, #FFF544 50%, #000 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    transition: background-position 0.4s ease, color 0.4s ease;
+    color: #FFFFFF;
+    margin: 3rem 0
+}
+
+.chb-hero-button:hover {
+    background-position: left bottom;
+    color: #000;
+}
+
+.chb-hero-button .custom-arrow-icon path {
+    fill: #FFFFFF;
+}
+
+.chb-hero-button:hover .custom-arrow-icon path {
+    background-position: left bottom;
+    fill: #000;
+}
+
+.chb-hero-button .custom-arrow-icon {
+    margin-left: 1.5rem;
+}
+
+.chb-hero-button--mobile {
+    display: none;
+}
+
+.chb-hero-headline {
+    font-size: clamp(32px, 8vw, 70px);
+}
+
+@media screen and (min-width: 990px) {
+    .chb-hero-headline {
+        font-size: clamp(48px, 4.86vw, 70px);
+    }
+}
+
+@media screen and (max-width: 989px) {
+    .chb-header-bar {
+        padding: 1rem 3rem;
+    }
+
+    .chb-hero-content {
+        width: 70%;
+    }
+
+    .chb-hero-subheadline {
+        width: 85%;
+    }
+}
+
+@media screen and (max-width: 749px) {
+    .chb-header-bar {
+        padding: 2rem 1rem;
+        justify-content: center;
+        position: relative;
+    }
+
+    .chb-hamburger {
+        display: block;
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .chb-logo {
+        width: 130px;
+    }
+
+    .chb-headline,
+    .chb-button {
+        display: none;
+    }
+
+    .chb-hero-content {
+        position: static;
+        width: 100%;
+        text-align: center;
+        padding: 1.5rem 1.5rem 1rem;
+        transform: none;
+        background: #fff;
+    }
+
+    .chb-hero-headline {
+        font-size: clamp(32px, 9vw, 40px);
+    }
+
+    .chb-hero-subheadline {
+        width: 100%;
+        margin: 1rem auto 0;
+    }
+
+    .chb-hero-subheadline * {
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .chb-hero-image-wrap {
+        aspect-ratio: 1 / 1.05;
+    }
+
+    .chb-hero-button--desktop {
+        display: none;
+    }
+
+    .chb-hero-button--mobile {
+        display: inline-flex;
+        gap: 1rem;
+        align-items: center;
+        left: 50%;
+        bottom: 12%;
+        transform: translateX(-50%);
+        margin: 0;
+        padding: 1rem 2.75rem;
+        white-space: nowrap;
+    }
+
+    .chb-bottom-text {
+        font-size: 13px;
+    }
+}
