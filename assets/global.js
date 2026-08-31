@@ -1539,13 +1539,13 @@ function buildSizeDropdown(fieldset) {
 
   fieldset.style.display = 'none';
 
-  const checkedIndex = radios.findIndex((radio) => radio.checked);
-  const defaultLabelText = checkedIndex > -1 ? getVisibleLabelText(labels[checkedIndex]) : 'Choose your size';
-
+  const customFieldSet = document.createElement('div')
+  customFieldSet.className = 'form__label'
+  customFieldSet.textContent = fieldset.querySelector('legend')?.textContent.trim() || 'Size'
   const customSelect = document.createElement('div');
   customSelect.className = 'custom-select';
   customSelect.innerHTML =
-    '<span class="choose-option">' + defaultLabelText + '</span>' +
+    '<span class="choose-option">Choose your size</span>' +
     '<span class="carrot-icon">' + CARET_ICON_SVG + '</span>';
 
   const otherVariant = document.createElement('div');
@@ -1585,7 +1585,7 @@ function buildSizeDropdown(fieldset) {
   });
 
   customSelect.appendChild(otherVariant);
-  fieldset.after(customSelect);
+  fieldset.after(customSelect, customFieldSet);
 }
 
 const SOFT_WINTER_JACKET_PRODUCT_ID = 10789076730161;

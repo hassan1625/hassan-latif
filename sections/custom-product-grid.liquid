@@ -116,11 +116,14 @@
     text-overflow: ellipsis;
     font-weight: 300;
     font-size: 14px;
-    line-height: 110.00000000000001%;
+    line-height: 1.1;
     letter-spacing: -1%;
   }
+  .quick-view-desc * {
+    margin: 0;
+  }
   .variants{
-    margin-top: 1rem;
+    margin-top: 2rem;
   }
   .product-form__input{
     border:none;
@@ -181,6 +184,16 @@
   }
 
   /* Size dropdown */
+  .product-popup .variants .form__label {
+    color: #000;
+    display: block;
+    margin-bottom: 0.6rem;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 130%;
+    letter-spacing: 0%;
+}
+
   .custom-select{
     display: flex;
     justify-content: space-between;
@@ -258,6 +271,7 @@
 
   .product-popup svg.icon.icon-caret {
     width: 15px;
+    transition: transform 0.5s ease;
 }
 .product-popup .variants .custom-variant--btn {
     border-bottom: 1px solid black;
@@ -268,16 +282,20 @@
   .cstm-add-to-cart{
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
+    gap: 6rem;
     background: #000;
     color: white;
-    font-size: 18px;
-    font-family: jost;
     height: 4.5rem;
     padding: 0 1.8rem;
     border: none;
-    font-weight: 300;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20.48px;
+    letter-spacing: 0px;
+    text-align: center;
+    text-transform: uppercase;
   }
   .cstm-add-to-cart svg path{
     fill:#fff;
@@ -289,7 +307,7 @@
     width:30px;
   }
   .cart-button{
-    margin-top:2.5rem;
+    margin-top:5rem;
   }
   .cart-button button{
     cursor:pointer;
@@ -308,6 +326,11 @@
     transform: translate(-50%, -43%);
     left: 50%;
   }
+
+  .quick-view-price {
+    margin: 3rem 0 1rem;
+}
+
   .quick-view-price * {
     font-family: "Lustria";
     font-weight: 400;
@@ -349,12 +372,30 @@
       width:49%
     }
     .product-popup{
-      width:100%;
+      width:50%;
     }
     .section-main_heading {
         text-align: center;
     }
   }
+
+  @media screen and (max-width: 650px) {
+    .product-popup {
+        width: 50%;
+    }
+}
+  @media screen and (max-width: 550px) {
+    .product-popup {
+        width: 75%;
+    }
+}
+  @media screen and (max-width: 375px) {
+    .product-popup {
+        width: 90%;
+    }
+}
+
+
 {% endstyle %}
 
 <div class="product-grid-container color-{{ section.settings.color_scheme }} section-{{ section.id }}-padding">
